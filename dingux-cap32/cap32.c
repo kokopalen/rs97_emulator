@@ -2353,11 +2353,12 @@ emulator_patch_ROM(void)
    strncpy(chPath, CPC.cpc_bios_path, sizeof(chPath)-2);
    strcat(chPath, "/");
    strncat(chPath, chROMFile[CPC.model], sizeof(chPath)-1 - strlen(chPath));
+   
    if ((a_file = fopen(chPath, "r")) != NULL) { // load CPC OS + Basic
       fread(pbROMlo, 2*16384, 1, a_file);
       fclose(a_file);
    } else {
-      return ERR_CPC_ROM_MISSING;
+	  return ERR_CPC_ROM_MISSING;
    }
 
    return 0;
@@ -2463,19 +2464,19 @@ emulator_init(void)
   int n = 0;
   char chPath[MAX_PATH + 1];
   char *pchRomData;
-
+  
   pbGPBuffer = (byte*)malloc( sizeof(byte) * 128*1024); // attempt to allocate the general purpose buffer
   pbRAM = (byte*)malloc( sizeof(byte) * CPC.ram_size*1024); // allocate memory for desired amount of RAM
   pbROMlo = (byte*)malloc( sizeof(byte) * 32*1024); // allocate memory for 32K of ROM
   if ((!pbGPBuffer) || (!pbRAM) || (!pbROMlo)) {
-     return ERR_OUT_OF_MEMORY;
+	 return ERR_OUT_OF_MEMORY;
   }
   pbROMhi =
   pbExpansionROM = pbROMlo + 16384;
   memset(memmap_ROM, 0, sizeof(memmap_ROM[0]) * 256); // clear the expansion ROM map
   ga_init_banking(); // init the CPC memory banking map
   if ((iErr = emulator_patch_ROM())) {
-     return iErr;
+	 return iErr;
   }
 
   for (iRomNum = 0; iRomNum < 16; iRomNum++) { // loop for ROMs 0-15
@@ -2498,13 +2499,13 @@ emulator_init(void)
               fread(pchRomData+128, 16384-128, 1, a_file); // read the rest of the ROM file
               memmap_ROM[iRomNum] = (byte *)pchRomData; // update the ROM map
            } else { // not a valid ROM file
-              fprintf(stderr, "ERROR: %s is not a CPC ROM file - clearing ROM slot %d.\n", CPC.rom_file[iRomNum], iRomNum);
+			  fprintf(stderr, "ERROR: %s is not a CPC ROM file - clearing ROM slot %d.\n", CPC.rom_file[iRomNum], iRomNum);
               free( pchRomData ); // free memory on error
               CPC.rom_file[iRomNum][0] = 0;
            }
            fclose(a_file);
         } else { // file not found
-           fprintf(stderr, "ERROR: The %s file is missing - clearing ROM slot %d.\n", CPC.rom_file[iRomNum], iRomNum);
+		   fprintf(stderr, "ERROR: The %s file is missing - clearing ROM slot %d.\n", CPC.rom_file[iRomNum], iRomNum);
            free( pchRomData ); // free memory on error
            CPC.rom_file[iRomNum][0] = 0;
         }
@@ -3557,10 +3558,11 @@ SDL_main(int argc, char **argv)
   cap32_load_default();
 
   z80_init_tables(); // init Z80 emulation
+  
   video_init_tables(); // generate the byte-to-pixels translation tables
 
   if (cpc_kbd_init()) {
-     fprintf(stderr, "input_init() failed. Aborting.\n");
+	 fprintf(stderr, "input_init() failed. Aborting.\n");
      psp_sdl_exit(1);
   }
 
@@ -3577,7 +3579,7 @@ SDL_main(int argc, char **argv)
   cap32_change_render_mode(CPC.cpc_render_mode);
 
   if (emulator_init()) {
-     psp_sdl_exit(1);
+	  psp_sdl_exit(1);
   }
 
   memset(&driveA, 0, sizeof(t_drive)); // clear disk drive A data structure

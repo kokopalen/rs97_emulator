@@ -20,7 +20,7 @@
 CAP32_VERSION	=1.1.2
 
 TARGET			= dingux-cap32
-SDL_CONFIG		= /home/steward/Downloads/buildroot-2017.02.9/output/host/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/bin/sdl-config
+SDL_CONFIG		= /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/bin/sdl-config
 
 OBJS = 	gp2x_psp.o \
 		cap32.o \
@@ -57,7 +57,7 @@ CC		= mipsel-linux-gcc
 DEFAULT_CFLAGS = $(shell $(SDL_CONFIG) --cflags)
 
 MORE_CFLAGS = -g -I. -DLSB_FIRST -I. \
- -DMPU_JZ4740 -mips32 -O3 -fomit-frame-pointer -fsigned-char -ffast-math \
+ -DMPU_JZ4740 -mips32 -O3 -fomit-frame-pointer -fsigned-char -mhard-float -ffast-math \
  -DGCW0_MODE  \
  -DCAP32_VERSION=\"$(CAP32_VERSION)\" \
 -DNO_STDIO_REDIRECT \

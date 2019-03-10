@@ -2,7 +2,7 @@ CC=mipsel-linux-gcc
 AR=mipsel-linux-ar
 RANLIB=mipsel-linux-ranlib
 
-CFLAGS=-O2 -Wall -DDINGUX_MODE
+CFLAGS=-O2 -Wall -mhard-float -DDINGUX_MODE
 
 OBJS=fs.o
 TARGET=libcpccat.a

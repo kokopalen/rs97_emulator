@@ -544,4 +544,5 @@ extern void load_comment_list();
 extern int load_thumb_if_exists(char *Name);
 extern char* load_comment_if_exists(char *Name);
 extern int cap32_load_file_cheat(char *FileName);
+
 #endif
